@@ -1,0 +1,8 @@
+{
+  "ios": {
+    "CFBundleDisplayName": "Spherag app de prueba"
+  },
+  "android": {
+    "app_name": "Spherag app de prueba"
+  }
+}

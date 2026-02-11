@@ -10,7 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "works.end.spheragtestapp"
+      "bundleIdentifier": "works.end.spheragtestapp",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -40,8 +43,21 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-localization",
+        {
+          "supportedLocales": {
+            "ios": ["en", "es"],
+            "android": ["en", "es"]
+          }
+        }
       ]
     ],
+    "locales": {
+      "en": "./assets/languages/en-meta.json",
+      "es": "./assets/languages/es-meta.json"
+    },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
