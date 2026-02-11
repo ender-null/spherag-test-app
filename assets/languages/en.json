@@ -6,7 +6,9 @@
   "atlas": {
     "title": "Atlas",
     "details": "Atlas %{name}",
-    "empty": "No atlas found"
+    "empty": "No atlas found",
+    "imei": "IMEI",
+    "expiredDate": "Exp. Date"
   },
   "login": {
     "title": "Login",

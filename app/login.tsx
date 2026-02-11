@@ -1,7 +1,10 @@
+import { UIButton } from "@/components/ui/button";
+import { UITextInput } from "@/components/ui/textinput";
 import { setAuth, setAuthError } from "@/features/authReducer";
 import { login } from "@/services/api";
+import { useTheme } from "@react-navigation/native";
 import { useState } from "react";
-import { Button, StyleSheet, TextInput } from "react-native";
+import { StyleSheet } from "react-native";
 import { ThemedText } from "../components/themed-text";
 import { ThemedView } from "../components/themed-view";
 import i18n from "../i18n";
@@ -9,6 +12,7 @@ import { useAppDispatch } from "../store";
 
 export default function LoginScreen() {
   const dispatch = useAppDispatch();
+  const theme = useTheme();
   const [username, setUsername] = useState("apppruebatecnica@spherag.com");
   const [password, setPassword] = useState("Usuario2026!");
 
@@ -32,22 +36,26 @@ export default function LoginScreen() {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">Login</ThemedText>
-      <ThemedText>{i18n.t("login.username")}</ThemedText>
-      <TextInput
-        placeholder={i18n.t("login.username")}
-        value={username}
-        onChangeText={setUsername}
-      />
-      <ThemedText>{i18n.t("login.password")}</ThemedText>
-      <TextInput
-        placeholder={i18n.t("login.password")}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title={i18n.t("login.login")} onPress={handleLoginMock} />
+    <ThemedView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <ThemedView
+        style={[styles.content, { backgroundColor: theme.colors.card }]}
+      >
+        <ThemedText type="title">Login</ThemedText>
+        <UITextInput
+          placeholder={i18n.t("login.username")}
+          value={username}
+          onChangeText={setUsername}
+        />
+        <UITextInput
+          placeholder={i18n.t("login.password")}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        <UIButton title={i18n.t("login.login")} onPress={handleLoginMock} />
+      </ThemedView>
     </ThemedView>
   );
 }
@@ -56,7 +64,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "flex-end",
+    padding: 24,
+  },
+  content: {
+    width: "100%",
+    alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    padding: 24,
+    gap: 16,
+    borderRadius: 42,
   },
 });

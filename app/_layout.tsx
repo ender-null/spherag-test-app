@@ -6,6 +6,7 @@ import {
 import { getLocales } from "expo-localization";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { IconContext } from "phosphor-react-native";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { Provider, useSelector } from "react-redux";
@@ -20,17 +21,23 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-
+  const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
   i18n.locale = getLocales()[0].languageCode ?? "en";
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <RootNavigator />
-          <StatusBar style="auto" />
+        <ThemeProvider value={theme}>
+          <IconContext.Provider
+            value={{
+              color: theme.colors.text,
+              size: 28,
+              weight: "regular",
+            }}
+          >
+            <RootNavigator />
+            <StatusBar style="auto" />
+          </IconContext.Provider>
         </ThemeProvider>
       </PersistGate>
     </Provider>

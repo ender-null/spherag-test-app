@@ -1,7 +1,10 @@
-import { router, Stack, useLocalSearchParams } from "expo-router";
-import { FlatList, Pressable, StyleSheet } from "react-native";
+import { isLiquidGlassAvailable } from "expo-glass-effect";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
+import { Separator } from "../../../../components/separator";
 import { ThemedText } from "../../../../components/themed-text";
+import { AtlasItem } from "../../../../components/ui/atlas-item";
 import { selectAtlasById } from "../../../../features/atlasReducer";
 import i18n from "../../../../i18n";
 
@@ -14,21 +17,19 @@ export default function AtlasListScreen() {
       <Stack.Screen
         options={{
           title: i18n.t("atlas.title"),
+          headerTransparent: isLiquidGlassAvailable(),
         }}
       />
       <FlatList
-        contentContainerStyle={styles.container}
+        style={styles.container}
+        contentInsetAdjustmentBehavior="automatic"
         data={atlasList}
         renderItem={({ item }) => (
-          <Pressable
-            key={item.id}
-            onPress={() => router.push(`/${id}/atlas/${item.imei}`)}
-          >
-            <ThemedText>{item.name}</ThemedText>
-          </Pressable>
+          <AtlasItem key={item.id} fincaId={id.toString()} atlas={item} />
         )}
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={<ThemedText>{i18n.t("atlas.empty")}</ThemedText>}
+        ItemSeparatorComponent={() => <Separator />}
       />
     </>
   );
@@ -37,8 +38,5 @@ export default function AtlasListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
   },
 });
