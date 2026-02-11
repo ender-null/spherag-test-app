@@ -1,1 +1,18 @@
-{}
+{
+  "fincas": {
+    "title": "Fincas",
+    "empty": "No fincas found"
+  },
+  "atlas": {
+    "title": "Atlas",
+    "details": "Atlas %{name}",
+    "empty": "No atlas found"
+  },
+  "login": {
+    "title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "logout": "Logout"
+  }
+}

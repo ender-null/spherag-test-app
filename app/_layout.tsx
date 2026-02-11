@@ -4,14 +4,15 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { getLocales } from "expo-localization";
-import { Stack } from "expo-router";
+import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 import "react-native-reanimated";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { useColorScheme } from "../hooks/use-color-scheme";
 import i18n from "../i18n";
-import { persistor, store } from "../store/index";
+import { persistor, RootState, store } from "../store/index";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -28,16 +29,33 @@ export default function RootLayout() {
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="modal"
-              options={{ presentation: "modal", title: "Modal" }}
-            />
-          </Stack>
+          <RootNavigator />
           <StatusBar style="auto" />
         </ThemeProvider>
       </PersistGate>
     </Provider>
   );
+}
+
+export function RootNavigator() {
+  const segments = useSegments();
+  const router = useRouter();
+
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.auth.auth !== null,
+  );
+
+  useEffect(() => {
+    const inAppGroup = segments[0] === "(app)";
+
+    if (!isLoggedIn && inAppGroup) {
+      router.replace("/login");
+    }
+
+    if (isLoggedIn && !inAppGroup) {
+      router.replace("/(app)/(tabs)");
+    }
+  }, [router, isLoggedIn, segments]);
+
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
