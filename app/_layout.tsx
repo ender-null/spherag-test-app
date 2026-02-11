@@ -1,3 +1,6 @@
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import i18n from "@/i18n";
+import { persistor, RootState, store } from "@/store";
 import {
   DarkTheme,
   DefaultTheme,
@@ -11,9 +14,6 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { useColorScheme } from "../hooks/use-color-scheme";
-import i18n from "../i18n";
-import { persistor, RootState, store } from "../store/index";
 
 export const unstable_settings = {
   anchor: "(tabs)",

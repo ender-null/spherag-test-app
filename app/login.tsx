@@ -1,14 +1,14 @@
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
 import { UIButton } from "@/components/ui/button";
 import { UITextInput } from "@/components/ui/textinput";
 import { setAuth, setAuthError } from "@/features/authReducer";
+import i18n from "@/i18n";
 import { login } from "@/services/api";
+import { useAppDispatch } from "@/store";
 import { useTheme } from "@react-navigation/native";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { ThemedText } from "../components/themed-text";
-import { ThemedView } from "../components/themed-view";
-import i18n from "../i18n";
-import { useAppDispatch } from "../store";
 
 export default function LoginScreen() {
   const dispatch = useAppDispatch();

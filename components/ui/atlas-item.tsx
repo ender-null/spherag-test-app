@@ -1,4 +1,6 @@
+import { ThemedText } from "@/components/themed-text";
 import i18n from "@/i18n";
+import { formatDate } from "@/utils/format";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import {
@@ -16,8 +18,6 @@ import {
 } from "phosphor-react-native";
 import { useMemo } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { formatDate } from "../../utils/format";
-import { ThemedText } from "../themed-text";
 
 export function AtlasItem({
   atlas,

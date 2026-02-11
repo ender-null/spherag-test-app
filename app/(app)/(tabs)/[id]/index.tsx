@@ -1,12 +1,12 @@
+import { Separator } from "@/components/separator";
+import { ThemedText } from "@/components/themed-text";
+import { AtlasItem } from "@/components/ui/atlas-item";
+import { selectAtlasById } from "@/features/atlasReducer";
+import i18n from "@/i18n";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-import { Separator } from "../../../../components/separator";
-import { ThemedText } from "../../../../components/themed-text";
-import { AtlasItem } from "../../../../components/ui/atlas-item";
-import { selectAtlasById } from "../../../../features/atlasReducer";
-import i18n from "../../../../i18n";
 
 export default function AtlasListScreen() {
   const { id } = useLocalSearchParams();

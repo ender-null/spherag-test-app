@@ -1,6 +1,6 @@
+import en from "@/assets/languages/en.json";
+import es from "@/assets/languages/es.json";
 import { I18n } from "i18n-js";
-import en from "./assets/languages/en.json";
-import es from "./assets/languages/es.json";
 
 const translations = {
   en: en,

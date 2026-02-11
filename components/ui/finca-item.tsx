@@ -1,9 +1,9 @@
+import { ThemedText } from "@/components/themed-text";
+import { formatDate } from "@/utils/format";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { FarmIcon, StarIcon } from "phosphor-react-native";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { formatDate } from "../../utils/format";
-import { ThemedText } from "../themed-text";
 
 export function FincaItem({ finca }: { finca: Finca }) {
   const router = useRouter();

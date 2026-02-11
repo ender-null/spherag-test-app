@@ -1,7 +1,7 @@
+import i18n from "@/i18n";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
-import i18n from "../../../../../i18n";
 
 export default function AtlasDetailScreen() {
   const { imei } = useLocalSearchParams();

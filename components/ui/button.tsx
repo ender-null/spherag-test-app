@@ -1,10 +1,10 @@
+import { ThemedText } from "@/components/themed-text";
 import { useTheme } from "@react-navigation/native";
 import {
   StyleSheet,
   TouchableOpacity,
   TouchableOpacityProps,
 } from "react-native";
-import { ThemedText } from "../themed-text";
 
 interface UIButtonProps extends TouchableOpacityProps {
   title: string;

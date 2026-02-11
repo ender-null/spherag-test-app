@@ -1,16 +1,16 @@
+import { Separator } from "@/components/separator";
+import { ThemedText } from "@/components/themed-text";
+import { FincaItem } from "@/components/ui/finca-item";
+import { resetAtlas } from "@/features/atlasReducer";
+import { resetAuth } from "@/features/authReducer";
+import { resetFincas, selectFincas } from "@/features/fincasReducer";
+import i18n from "@/i18n";
+import { useAppDispatch } from "@/store";
 import { useTheme } from "@react-navigation/native";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Stack } from "expo-router";
 import { Button, FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-import { Separator } from "../../../components/separator";
-import { ThemedText } from "../../../components/themed-text";
-import { FincaItem } from "../../../components/ui/finca-item";
-import { resetAtlas } from "../../../features/atlasReducer";
-import { resetAuth } from "../../../features/authReducer";
-import { resetFincas, selectFincas } from "../../../features/fincasReducer";
-import i18n from "../../../i18n";
-import { useAppDispatch } from "../../../store";
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch();
