@@ -28,9 +28,9 @@ const authSlice = createSlice({
       state.error = action.payload;
     },
     resetAuth(state) {
-      state.auth = null;
-      state.loading = false;
-      state.error = null;
+      state.auth = initialState.auth;
+      state.loading = initialState.loading;
+      state.error = initialState.error;
     },
   },
 });
