@@ -1,17 +1,28 @@
+import { setAuth, setAuthError } from "@/features/authReducer";
+import { login } from "@/services/api";
 import { useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 import { ThemedText } from "../components/themed-text";
 import { ThemedView } from "../components/themed-view";
-import { setAuth } from "../features/authReducer";
 import i18n from "../i18n";
 import { useAppDispatch } from "../store";
 
 export default function LoginScreen() {
   const dispatch = useAppDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("apppruebatecnica@spherag.com");
+  const [password, setPassword] = useState("Usuario2026!");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    const auth = await login(username, password);
+    console.log("auth", auth);
+    if (auth) {
+      dispatch(setAuth(auth));
+    } else {
+      dispatch(setAuthError("Invalid username or password"));
+    }
+  };
+
+  const handleLoginMock = async () => {
     dispatch(
       setAuth({
         accessToken: { token: "TODO", expiration: new Date().toISOString() },
@@ -36,7 +47,7 @@ export default function LoginScreen() {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title={i18n.t("login.login")} onPress={handleLogin} />
+      <Button title={i18n.t("login.login")} onPress={handleLoginMock} />
     </ThemedView>
   );
 }
