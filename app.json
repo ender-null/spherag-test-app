@@ -12,7 +12,12 @@
       "supportsTablet": true,
       "bundleIdentifier": "works.end.spheragtestapp",
       "infoPlist": {
-        "CFBundleAllowMixedLocalizations": true
+        "CFBundleAllowMixedLocalizations": true,
+        "CFBundleLocalizations": [
+          "en",
+          "es"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -48,8 +53,14 @@
         "expo-localization",
         {
           "supportedLocales": {
-            "ios": ["en", "es"],
-            "android": ["en", "es"]
+            "ios": [
+              "en",
+              "es"
+            ],
+            "android": [
+              "en",
+              "es"
+            ]
           }
         }
       ]
@@ -62,6 +73,12 @@
       "typedRoutes": true,
       "reactCompiler": false,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c2bf79a2-8005-4b84-aea3-7cf600e9432f"
+      }
     }
   }
 }
