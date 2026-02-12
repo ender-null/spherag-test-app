@@ -6,7 +6,7 @@ import {
   fetchAuth,
   selectAuthError,
   selectAuthLoadingState,
-} from "@/features/authReducer";
+} from "@/features/authSlice";
 import i18n from "@/i18n";
 import { useAppDispatch } from "@/store";
 import { useTheme } from "@react-navigation/native";

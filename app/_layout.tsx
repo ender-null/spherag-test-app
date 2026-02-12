@@ -1,5 +1,5 @@
 import { ThemedDarkTheme, ThemedDefaultTheme } from "@/constants/theme";
-import { selectAuthToken } from "@/features/authReducer";
+import { selectAuthToken } from "@/features/authSlice";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import i18n from "@/i18n";
 import { persistor, store } from "@/store";

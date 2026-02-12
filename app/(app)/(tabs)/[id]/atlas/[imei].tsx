@@ -5,7 +5,7 @@ import {
   selectAtlasDetailsById,
   selectAtlasDetailsErrorById,
   selectAtlasDetailsLoadingById,
-} from "@/features/atlasReducer";
+} from "@/features/atlasSlice";
 import i18n from "@/i18n";
 import { useAppDispatch } from "@/store";
 import { isLiquidGlassAvailable } from "expo-glass-effect";

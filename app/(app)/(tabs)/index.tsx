@@ -1,14 +1,14 @@
 import { Separator } from "@/components/separator";
 import { EmptyList } from "@/components/ui/empty-list";
 import { FincaItem } from "@/components/ui/finca-item";
-import { resetAtlas } from "@/features/atlasReducer";
-import { resetAuth } from "@/features/authReducer";
+import { resetAtlas } from "@/features/atlasSlice";
+import { resetAuth } from "@/features/authSlice";
 import {
   fetchFincas,
   resetFincas,
   selectFincas,
   selectFincasLoading,
-} from "@/features/fincasReducer";
+} from "@/features/fincasSlice";
 import i18n from "@/i18n";
 import { useAppDispatch } from "@/store";
 import { useTheme } from "@react-navigation/native";

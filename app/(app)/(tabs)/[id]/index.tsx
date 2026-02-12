@@ -7,8 +7,8 @@ import {
   selectAtlasHasNextPageById,
   selectAtlasLoadingById,
   selectAtlasLoadingMoreById,
-} from "@/features/atlasReducer";
-import { selectFincaById } from "@/features/fincasReducer";
+} from "@/features/atlasSlice";
+import { selectFincaById } from "@/features/fincasSlice";
 import i18n from "@/i18n";
 import { useAppDispatch } from "@/store";
 import { isLiquidGlassAvailable } from "expo-glass-effect";

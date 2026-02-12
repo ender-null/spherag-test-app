@@ -73,7 +73,8 @@ const atlasSlice = createSlice({
   initialState,
   reducers: {
     resetAtlas(state) {
-      state = initialState;
+      state.list = initialState.list;
+      state.details = initialState.details;
     },
   },
   extraReducers: (builder) => {

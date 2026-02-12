@@ -28,7 +28,9 @@ const fincasSlice = createSlice({
   initialState,
   reducers: {
     resetFincas(state) {
-      state = initialState;
+      state.fincas = initialState.fincas;
+      state.loadingState = initialState.loadingState;
+      state.error = initialState.error;
     },
   },
   extraReducers: (builder) => {
