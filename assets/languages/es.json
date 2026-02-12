@@ -1,12 +1,14 @@
 {
   "fincas": {
     "title": "Fincas",
-    "empty": "No hay fincas encontradas"
+    "empty": "No hay fincas encontradas",
+    "error": "Error al cargar las fincas"
   },
   "atlas": {
     "title": "Atlas",
     "details": "Atlas %{name}",
     "empty": "No hay atlas encontrados",
+    "error": "Error al cargar el atlas",
     "imei": "IMEI",
     "expiredDate": "Fecha Exp."
   },
