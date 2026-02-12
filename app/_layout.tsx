@@ -1,12 +1,9 @@
+import { ThemedDarkTheme, ThemedDefaultTheme } from "@/constants/theme";
 import { selectAuthToken } from "@/features/authReducer";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import i18n from "@/i18n";
 import { persistor, store } from "@/store";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
 import { getLocales } from "expo-localization";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -22,7 +19,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
+  const theme = colorScheme === "dark" ? ThemedDarkTheme : ThemedDefaultTheme;
   i18n.locale = getLocales()[0].languageCode ?? "en";
 
   return (
