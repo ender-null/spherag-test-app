@@ -4,16 +4,16 @@ import { formatDate } from "@/utils/format";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import {
-  BatteryEmptyIcon,
   BatteryFullIcon,
   BatteryHighIcon,
   BatteryLowIcon,
   BatteryMediumIcon,
+  BatteryWarningIcon,
   CellSignalFullIcon,
   CellSignalHighIcon,
   CellSignalLowIcon,
   CellSignalMediumIcon,
-  CellSignalNoneIcon,
+  CellSignalXIcon,
   SimCardIcon,
 } from "phosphor-react-native";
 import { useMemo } from "react";
@@ -42,7 +42,7 @@ export function AtlasItem({
     if (batteryPercentage > 60) return <BatteryHighIcon />;
     if (batteryPercentage > 40) return <BatteryMediumIcon color="yellow" />;
     if (batteryPercentage > 20) return <BatteryLowIcon color="red" />;
-    return <BatteryEmptyIcon color="red" />;
+    return <BatteryWarningIcon color="red" />;
   }, [batteryPercentage]);
 
   const signalIcon = useMemo(() => {
@@ -50,7 +50,7 @@ export function AtlasItem({
     if (signalPercentage > 60) return <CellSignalHighIcon />;
     if (signalPercentage > 40) return <CellSignalMediumIcon color="yellow" />;
     if (signalPercentage > 20) return <CellSignalLowIcon color="red" />;
-    return <CellSignalNoneIcon color="red" />;
+    return <CellSignalXIcon color="red" />;
   }, [signalPercentage]);
 
   return (
