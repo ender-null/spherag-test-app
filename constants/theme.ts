@@ -9,6 +9,9 @@ import { Platform } from "react-native";
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#fff";
 
+export const primaryColor = "#0fbaed";
+export const secondaryColor = "#283370";
+
 export const Colors = {
   light: {
     text: "#11181C",
@@ -58,7 +61,7 @@ export const ThemedDefaultTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#283370",
+    primary: primaryColor,
   },
 };
 
@@ -66,6 +69,6 @@ export const ThemedDarkTheme: Theme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    primary: "#283370",
+    primary: primaryColor,
   },
 };
