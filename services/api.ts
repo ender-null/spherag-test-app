@@ -1,5 +1,3 @@
-import { store } from "@/store";
-
 export const API_ENDPOINT = "https://apicore.spherag.com";
 export const API_LOGIN_ENDPOINT = "https://api.spherag.com";
 
@@ -17,11 +15,10 @@ export const login = (username: string, password: string): Promise<Auth> => {
     });
 };
 
-export const getFincas = (): Promise<Finca[]> => {
-  const authToken = store.getState().auth.auth?.accessToken;
+export const getFincas = (accessToken: string): Promise<Finca[]> => {
   return fetch(`${API_ENDPOINT}/System/List`, {
     headers: {
-      Authorization: `Bearer ${authToken?.token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   })
     .then((response) => response.json())
@@ -31,16 +28,16 @@ export const getFincas = (): Promise<Finca[]> => {
 };
 
 export const getAtlas = (
+  accessToken: string,
   idFinca: number,
   init: number = 1,
   limit: number = 10,
 ): Promise<AtlasResponse> => {
-  const authToken = store.getState().auth.auth?.accessToken;
   return fetch(
     `${API_ENDPOINT}/systems/${idFinca}/Atlas/?Init=${init}&Limit=${limit}`,
     {
       headers: {
-        Authorization: `Bearer ${authToken?.token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     },
   )
@@ -51,13 +48,13 @@ export const getAtlas = (
 };
 
 export const getAtlasDetails = (
+  accessToken: string,
   idFinca: number,
   imei: string,
 ): Promise<AtlasDetails> => {
-  const authToken = store.getState().auth.auth?.accessToken;
   return fetch(`${API_ENDPOINT}/systems/${idFinca}/Atlas/${imei}`, {
     headers: {
-      Authorization: `Bearer ${authToken?.token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   })
     .then((response) => response.json())

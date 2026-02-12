@@ -1,15 +1,39 @@
 import { RootState } from "@/store";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+export const API_LOGIN_ENDPOINT = "https://api.spherag.com/Authentication";
+
+export const fetchAuth = createAsyncThunk<
+  Auth,
+  { username: string; password: string }
+>("auth/fetch", ({ username, password }) => {
+  return fetch(`${API_LOGIN_ENDPOINT}/Login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  }).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error: any) => {
+        throw new Error(
+          error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
+        );
+      });
+    }
+    return response.json();
+  });
+});
 
 interface AuthState {
   auth: Auth | null;
-  loading: boolean;
+  loadingState: LoadingState;
   error: string | null;
 }
 
 const initialState: AuthState = {
   auth: null,
-  loading: false,
+  loadingState: "pending",
   error: null,
 };
 
@@ -17,26 +41,30 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuth(state, action: PayloadAction<Auth>) {
-      state.auth = action.payload;
-      state.error = null;
-    },
-    setAuthLoading(state, action: PayloadAction<boolean>) {
-      state.loading = action.payload;
-    },
-    setAuthError(state, action: PayloadAction<string | null>) {
-      state.error = action.payload;
-    },
     resetAuth(state) {
       state.auth = initialState.auth;
-      state.loading = initialState.loading;
+      state.loadingState = initialState.loadingState;
       state.error = initialState.error;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchAuth.pending, (state) => {
+      state.loadingState = "loading";
+    });
+    builder.addCase(fetchAuth.fulfilled, (state, action) => {
+      state.auth = action.payload;
+      state.error = null;
+      state.loadingState = "success";
+    });
+    builder.addCase(fetchAuth.rejected, (state, action) => {
+      state.auth = null;
+      state.error = action.error.message ?? null;
+      state.loadingState = "error";
+    });
+  },
 });
 
-export const { setAuth, setAuthLoading, setAuthError, resetAuth } =
-  authSlice.actions;
+export const { resetAuth } = authSlice.actions;
 
 export const selectAuthToken = (state: RootState): AuthToken | null =>
   state.auth.auth?.accessToken ?? null;
@@ -44,8 +72,8 @@ export const selectAuthToken = (state: RootState): AuthToken | null =>
 export const selectRefreshToken = (state: RootState): AuthToken | null =>
   state.auth.auth?.refreshToken ?? null;
 
-export const selectAuthLoading = (state: RootState): boolean =>
-  state.auth.loading;
+export const selectAuthLoadingState = (state: RootState): LoadingState =>
+  state.auth.loadingState;
 
 export const selectAuthError = (state: RootState): string | null =>
   state.auth.error;

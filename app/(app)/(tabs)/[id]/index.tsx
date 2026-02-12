@@ -1,22 +1,63 @@
 import { Separator } from "@/components/separator";
-import { ThemedText } from "@/components/themed-text";
 import { AtlasItem } from "@/components/ui/atlas-item";
-import { selectAtlasById } from "@/features/atlasReducer";
+import { EmptyList } from "@/components/ui/empty-list";
+import {
+  fetchAtlas,
+  selectAtlasById,
+  selectAtlasHasNextPageById,
+  selectAtlasLoadingById,
+  selectAtlasLoadingMoreById,
+} from "@/features/atlasReducer";
+import { selectFincaById } from "@/features/fincasReducer";
 import i18n from "@/i18n";
+import { useAppDispatch } from "@/store";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { FlatList, StyleSheet } from "react-native";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
 export default function AtlasListScreen() {
+  const dispatch = useAppDispatch();
   const { id } = useLocalSearchParams();
-  const atlasList = useSelector(selectAtlasById(id.toString()));
+  const fincaId = useMemo(() => Number(id), [id]);
+  const atlasList = useSelector(selectAtlasById(fincaId));
+  const finca = useSelector(selectFincaById(fincaId));
+  const loadingState = useSelector(selectAtlasLoadingById(fincaId));
+  const loadingMoreState = useSelector(selectAtlasLoadingMoreById(fincaId));
+  const hasNextPage = useSelector(selectAtlasHasNextPageById(fincaId));
+
+  const title = useMemo(() => {
+    if (finca) {
+      return finca.name;
+    }
+    return i18n.t("atlas.title");
+  }, [finca]);
+
+  const isLoading = useMemo(() => loadingState === "loading", [loadingState]);
+  const isLoadingMore = useMemo(
+    () => loadingMoreState === "loading",
+    [loadingMoreState],
+  );
+  const [page, setPage] = useState(1);
+
+  const handleLoadMore = useCallback(async () => {
+    if (!hasNextPage) return;
+    setPage(page + 1);
+    dispatch(fetchAtlas({ fincaId: Number(id), init: page + 1 }));
+  }, [dispatch, page, id, hasNextPage]);
+
+  useEffect(() => {
+    if (!atlasList || loadingState === "pending") {
+      dispatch(fetchAtlas({ fincaId: Number(id), init: 1 }));
+    }
+  }, [atlasList, loadingState, dispatch, id, page]);
 
   return (
     <>
       <Stack.Screen
         options={{
-          title: i18n.t("atlas.title"),
+          title,
           headerTransparent: isLiquidGlassAvailable(),
         }}
       />
@@ -28,8 +69,13 @@ export default function AtlasListScreen() {
           <AtlasItem key={item.id} fincaId={id.toString()} atlas={item} />
         )}
         keyExtractor={(item) => item.id.toString()}
-        ListEmptyComponent={<ThemedText>{i18n.t("atlas.empty")}</ThemedText>}
+        ListEmptyComponent={() => <EmptyList text={i18n.t("atlas.empty")} />}
         ItemSeparatorComponent={() => <Separator />}
+        refreshing={isLoading}
+        onRefresh={() => dispatch(fetchAtlas({ fincaId: Number(id), init: 1 }))}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={isLoadingMore ? <ActivityIndicator /> : null}
       />
     </>
   );

@@ -1,6 +1,7 @@
+import { selectAuthToken } from "@/features/authReducer";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import i18n from "@/i18n";
-import { persistor, RootState, store } from "@/store";
+import { persistor, store } from "@/store";
 import {
   DarkTheme,
   DefaultTheme,
@@ -48,10 +49,7 @@ export function RootNavigator() {
   const segments = useSegments();
   const router = useRouter();
 
-  const isLoggedIn = useSelector(
-    (state: RootState) => state.auth.auth !== null,
-  );
-
+  const isLoggedIn = useSelector(selectAuthToken);
   useEffect(() => {
     const inAppGroup = segments[0] === "(app)";
 
