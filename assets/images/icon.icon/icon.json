@@ -1,6 +1,6 @@
 {
   "fill": {
-    "solid": "extended-gray:1.00000,1.00000"
+    "automatic-gradient": "display-p3:0.15686,0.20000,0.43922,1.00000"
   },
   "groups": [
     {
@@ -9,8 +9,8 @@
         {
           "glass": true,
           "hidden": false,
-          "image-name": "icon.png",
-          "name": "icon"
+          "image-name": "logo.png",
+          "name": "logo"
         }
       ],
       "shadow": {
@@ -19,7 +19,7 @@
       },
       "specular": true,
       "translucency": {
-        "enabled": false,
+        "enabled": true,
         "value": 0.5
       }
     }

@@ -14,10 +14,7 @@
       "bundleIdentifier": "works.end.spheragtestapp",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
-        "CFBundleLocalizations": [
-          "en",
-          "es"
-        ],
+        "CFBundleLocalizations": ["en", "es"],
         "ITSAppUsesNonExemptEncryption": false
       }
     },
@@ -53,14 +50,8 @@
         "expo-localization",
         {
           "supportedLocales": {
-            "ios": [
-              "en",
-              "es"
-            ],
-            "android": [
-              "en",
-              "es"
-            ]
+            "ios": ["en", "es"],
+            "android": ["en", "es"]
           }
         }
       ]
