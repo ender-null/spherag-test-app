@@ -1,4 +1,5 @@
-import { ThemedText } from "@/components/themed-text";
+import { AtlasDetails } from "@/components/ui/atlas-details";
+import { AtlasMap } from "@/components/ui/atlas-map";
 import { EmptyList } from "@/components/ui/empty-list";
 import {
   fetchAtlasDetails,
@@ -12,7 +13,13 @@ import { useTheme } from "@react-navigation/native";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useMemo } from "react";
-import { ActivityIndicator, RefreshControl, ScrollView } from "react-native";
+import {
+  ActivityIndicator,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { useSelector } from "react-redux";
 
 export default function AtlasDetailScreen() {
@@ -56,13 +63,25 @@ export default function AtlasDetailScreen() {
         }
       >
         {loadingState === "success" && (
-          <ThemedText>{JSON.stringify(atlasDetails, null, 2)}</ThemedText>
+          <View style={styles.container}>
+            <AtlasMap atlas={atlasDetails!} />
+            <AtlasDetails atlas={atlasDetails!} />
+          </View>
         )}
         {loadingState === "error" && (
           <EmptyList text={error ?? i18n.t("atlas.error")} />
         )}
-        {loadingState === "loading" && <ActivityIndicator color={ theme.colors.primary} />}
+        {loadingState === "loading" && (
+          <ActivityIndicator color={theme.colors.primary} />
+        )}
       </ScrollView>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    gap: 16,
+  },
+});
