@@ -28,11 +28,11 @@ npm install
 
 Create a `.env.local` in the project root and set:
 
-| Variable | Description |
-|----------|-------------|
+| Variable                          | Description                         |
+| --------------------------------- | ----------------------------------- |
 | `EXPO_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Maps API key (Android & iOS) |
-| `EXPO_PUBLIC_API_ENDPOINT` | API base URL |
-| `EXPO_PUBLIC_API_LOGIN_ENDPOINT` | Login API endpoint |
+| `EXPO_PUBLIC_API_ENDPOINT`        | API base URL                        |
+| `EXPO_PUBLIC_API_LOGIN_ENDPOINT`  | Login API endpoint                  |
 
 ### 3. Generate native projects (first time or after config changes)
 
@@ -53,15 +53,19 @@ npm start
 Then choose a target in the terminal, or run a platform directly:
 
 - **Android (emulator or device):**
+
   ```bash
   npm run android
   ```
+
   Connected device only: `npm run android:device`
 
 - **iOS (simulator or device, macOS only):**
+
   ```bash
   npm run ios
   ```
+
   Connected device only: `npm run ios:device`
 
 - **Web:**
@@ -82,12 +86,14 @@ eas login
 ```
 
 - **Development build** (for local dev with dev client):
+
   ```bash
   eas build --profile development --platform android
   eas build --profile development --platform ios
   ```
 
 - **Preview** (internal distribution):
+
   ```bash
   eas build --profile preview --platform all
   ```
@@ -102,4 +108,3 @@ Submit to stores with [EAS Submit](https://docs.expo.dev/submit/introduction/):
 ```bash
 eas submit --platform all --profile production
 ```
-
