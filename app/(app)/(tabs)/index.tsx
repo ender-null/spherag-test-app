@@ -64,7 +64,7 @@ export default function HomeScreen() {
         renderItem={({ item }) => <FincaItem key={item.id} finca={item} />}
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={() => <EmptyList text={i18n.t("fincas.empty")} />}
-        ItemSeparatorComponent={() => <Separator />}
+        ItemSeparatorComponent={() => <Separator spacing />}
         refreshing={loading}
         onRefresh={() => dispatch(fetchFincas())}
       />

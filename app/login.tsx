@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 24,
     gap: 16,
-    borderRadius: 42,
+    borderRadius: 32,
     marginBottom: 24,
   },
 });

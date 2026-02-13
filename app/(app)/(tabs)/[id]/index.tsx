@@ -72,12 +72,16 @@ export default function AtlasListScreen() {
         )}
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={() => <EmptyList text={i18n.t("atlas.empty")} />}
-        ItemSeparatorComponent={() => <Separator />}
+        ItemSeparatorComponent={() => <Separator spacing />}
         refreshing={isLoading}
         onRefresh={() => dispatch(fetchAtlas({ fincaId: Number(id), init: 1 }))}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
-        ListFooterComponent={isLoadingMore ? <ActivityIndicator color={theme.colors.primary} /> : null}
+        ListFooterComponent={
+          isLoadingMore ? (
+            <ActivityIndicator color={theme.colors.primary} />
+          ) : null
+        }
       />
     </>
   );

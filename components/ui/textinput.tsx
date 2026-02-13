@@ -7,9 +7,9 @@ export function UITextInput({ ...props }: TextInputProps) {
 
   const backgroundColor = useMemo(() => {
     if (theme.dark) {
-      return theme.colors.card;
+      return theme.colors.background;
     }
-    return theme.colors.card;
+    return theme.colors.background;
   }, [theme]);
 
   return (
@@ -25,9 +25,9 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     padding: 12,
-    borderRadius: 16,
+    borderRadius: 32,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(128, 128, 128, 0.5)",
+    borderColor: "rgba(128, 128, 128, 0.2)",
     alignItems: "center",
     justifyContent: "center",
   },

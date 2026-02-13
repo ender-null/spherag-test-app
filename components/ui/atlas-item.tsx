@@ -16,7 +16,7 @@ import {
   CellSignalXIcon,
   SimCardIcon,
 } from "phosphor-react-native";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 export function AtlasItem({
@@ -37,44 +37,67 @@ export function AtlasItem({
     return Math.round(atlas.signalPercentage);
   }, [atlas.signalPercentage]);
 
+  const getColorFromPercentage = useCallback((percentage: number) => {
+    if (percentage > 80) return "green";
+    if (percentage > 60) return undefined;
+    if (percentage > 40) return "red";
+    return "red";
+  }, []);
+
   const batteryIcon = useMemo(() => {
-    if (batteryPercentage > 80) return <BatteryFullIcon color="green" />;
-    if (batteryPercentage > 60) return <BatteryHighIcon />;
-    if (batteryPercentage > 40) return <BatteryMediumIcon color="yellow" />;
-    if (batteryPercentage > 20) return <BatteryLowIcon color="red" />;
-    return <BatteryWarningIcon color="red" />;
-  }, [batteryPercentage]);
+    const commonProps = { color: getColorFromPercentage(batteryPercentage) };
+    if (batteryPercentage > 80) return <BatteryFullIcon {...commonProps} />;
+    if (batteryPercentage > 60) return <BatteryHighIcon {...commonProps} />;
+    if (batteryPercentage > 40) return <BatteryMediumIcon {...commonProps} />;
+    if (batteryPercentage > 20) return <BatteryLowIcon {...commonProps} />;
+    return <BatteryWarningIcon {...commonProps} />;
+  }, [batteryPercentage, getColorFromPercentage]);
 
   const signalIcon = useMemo(() => {
-    if (signalPercentage > 80) return <CellSignalFullIcon color="green" />;
-    if (signalPercentage > 60) return <CellSignalHighIcon />;
-    if (signalPercentage > 40) return <CellSignalMediumIcon color="yellow" />;
-    if (signalPercentage > 20) return <CellSignalLowIcon color="red" />;
-    return <CellSignalXIcon color="red" />;
-  }, [signalPercentage]);
+    const commonProps = { color: getColorFromPercentage(signalPercentage) };
+    if (signalPercentage > 80) return <CellSignalFullIcon {...commonProps} />;
+    if (signalPercentage > 60) return <CellSignalHighIcon {...commonProps} />;
+    if (signalPercentage > 40) return <CellSignalMediumIcon {...commonProps} />;
+    if (signalPercentage > 20) return <CellSignalLowIcon {...commonProps} />;
+    return <CellSignalXIcon {...commonProps} />;
+  }, [signalPercentage, getColorFromPercentage]);
 
   return (
     <TouchableOpacity
       onPress={() => router.push(`/${fincaId}/atlas/${atlas.imei}`)}
-      style={styles.item}
+      style={[styles.item, { backgroundColor: theme.colors.card }]}
     >
       <SimCardIcon size={42} weight="light" color={theme.colors.primary} />
       <View style={styles.content}>
         <ThemedText type="defaultSemiBold">{atlas.name}</ThemedText>
-        <ThemedText>
+        <ThemedText style={styles.contentText}>
           {i18n.t("atlas.imei")}: {atlas.imei}
         </ThemedText>
-        <ThemedText>
+        <ThemedText style={styles.contentText}>
           {i18n.t("atlas.expiredDate")}: {formatDate(atlas.expiredDate)}
         </ThemedText>
       </View>
       <View style={styles.status}>
         <View style={styles.statusItem}>
-          <ThemedText>{batteryPercentage}%</ThemedText>
+          <ThemedText
+            style={[
+              styles.contentText,
+              { color: getColorFromPercentage(batteryPercentage) },
+            ]}
+          >
+            {batteryPercentage}%
+          </ThemedText>
           {batteryIcon}
         </View>
         <View style={styles.statusItem}>
-          <ThemedText>{signalPercentage}%</ThemedText>
+          <ThemedText
+            style={[
+              styles.contentText,
+              { color: getColorFromPercentage(signalPercentage) },
+            ]}
+          >
+            {signalPercentage}%
+          </ThemedText>
           {signalIcon}
         </View>
       </View>
@@ -88,7 +111,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     padding: 16,
+    marginHorizontal: 16,
     gap: 16,
+    borderRadius: 32,
   },
   content: {
     flex: 1,
@@ -104,5 +129,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     gap: 4,
+  },
+  contentText: {
+    fontSize: 14,
   },
 });

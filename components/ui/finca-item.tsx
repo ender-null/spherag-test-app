@@ -1,4 +1,5 @@
 import { ThemedText } from "@/components/themed-text";
+import { secondaryColor } from "@/constants/theme";
 import { formatDate } from "@/utils/format";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
@@ -12,14 +13,21 @@ export function FincaItem({ finca }: { finca: Finca }) {
   return (
     <TouchableOpacity
       onPress={() => router.push(`/${finca.id}`)}
-      style={styles.item}
+      style={[styles.item, { backgroundColor: theme.colors.card }]}
     >
       <FarmIcon size={42} weight="light" color={theme.colors.primary} />
       <View style={styles.content}>
         <ThemedText type="defaultSemiBold">{finca.name}</ThemedText>
-        <ThemedText>{formatDate(finca.createdDate)}</ThemedText>
+        <ThemedText style={styles.contentText}>
+          {formatDate(finca.createdDate, true)}
+        </ThemedText>
       </View>
-      <StarIcon weight={finca.favourite ? "fill" : "regular"} />
+      {finca.favourite && (
+        <StarIcon
+          weight="fill"
+          color={theme.dark ? theme.colors.text : secondaryColor}
+        />
+      )}
     </TouchableOpacity>
   );
 }
@@ -30,11 +38,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     padding: 16,
+    marginHorizontal: 16,
     gap: 16,
+    borderRadius: 32,
   },
   content: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
+  },
+  contentText: {
+    fontSize: 14,
   },
 });
