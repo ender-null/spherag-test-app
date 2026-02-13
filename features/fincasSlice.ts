@@ -1,6 +1,7 @@
 import { RootState } from '@/store';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Constants from 'expo-constants';
+import { REHYDRATE } from 'redux-persist';
 
 export const fetchFincas = createAsyncThunk<Finca[], void, { state: RootState }>(
   'fincas/fetch',
@@ -44,6 +45,13 @@ const fincasSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state) => {
+      if (state.loadingState !== 'success') {
+        state.fincas = initialState.fincas;
+        state.loadingState = initialState.loadingState;
+        state.error = initialState.error;
+      }
+    });
     builder.addCase(fetchFincas.pending, (state) => {
       state.loadingState = 'loading';
     });

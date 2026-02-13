@@ -1,6 +1,7 @@
 import { RootState } from '@/store';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Constants from 'expo-constants';
+import { REHYDRATE } from 'redux-persist';
 
 export const fetchAtlas = createAsyncThunk<
   AtlasResponse,
@@ -89,6 +90,25 @@ const atlasSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state) => {
+      for (const fincaId in state.list) {
+        if (state.list[fincaId].loadingState !== 'success') {
+          state.list[fincaId] = initialState.list[fincaId];
+          state.list[fincaId].loadingState = 'pending';
+          state.list[fincaId].loadingMoreState = 'pending';
+          state.list[fincaId].error = null;
+          state.list[fincaId].page = 1;
+          state.list[fincaId].hasNextPage = false;
+        }
+      }
+      for (const imei in state.details) {
+        if (state.details[imei].loadingState !== 'success') {
+          state.details[imei] = initialState.details[imei];
+          state.details[imei].loadingState = 'pending';
+          state.details[imei].error = null;
+        }
+      }
+    });
     builder.addCase(fetchAtlas.pending, (state, action) => {
       if (!state.list[action.meta.arg.fincaId]) {
         state.list[action.meta.arg.fincaId] = {
@@ -134,7 +154,6 @@ const atlasSlice = createSlice({
         state.details[action.meta.arg.imei] = {
           details: null,
           loadingState: 'pending',
-          loadingMoreState: 'pending',
           error: null,
         };
       }

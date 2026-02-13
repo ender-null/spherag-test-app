@@ -1,6 +1,7 @@
 import { RootState } from '@/store';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Constants from 'expo-constants';
+import { REHYDRATE } from 'redux-persist';
 
 export const fetchAuth = createAsyncThunk<Auth, { username: string; password: string }>(
   'auth/fetch',
@@ -45,6 +46,13 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state) => {
+      if (state.loadingState !== 'success') {
+        state.auth = initialState.auth;
+        state.loadingState = initialState.loadingState;
+        state.error = initialState.error;
+      }
+    });
     builder.addCase(fetchAuth.pending, (state) => {
       state.loadingState = 'loading';
     });
