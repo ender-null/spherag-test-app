@@ -1,6 +1,6 @@
-import { getFincas } from "@/services/api";
 import { RootState } from "@/store";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Constants from "expo-constants";
 
 export const fetchFincas = createAsyncThunk<
   Finca[],
@@ -8,7 +8,20 @@ export const fetchFincas = createAsyncThunk<
   { state: RootState }
 >("fincas/fetch", async (_, { getState }) => {
   const authToken = getState().auth.auth?.accessToken;
-  return getFincas(authToken?.token ?? "");
+  return fetch(`${Constants.expoConfig?.extra?.API_ENDPOINT}/System/List`, {
+    headers: {
+      Authorization: `Bearer ${authToken?.token ?? ""}`,
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error: any) => {
+        throw new Error(
+          error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
+        );
+      });
+    }
+    return response.json();
+  });
 });
 
 interface FincasState {

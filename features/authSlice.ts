@@ -1,19 +1,21 @@
 import { RootState } from "@/store";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-export const API_LOGIN_ENDPOINT = "https://api.spherag.com/Authentication";
+import Constants from "expo-constants";
 
 export const fetchAuth = createAsyncThunk<
   Auth,
   { username: string; password: string }
 >("auth/fetch", ({ username, password }) => {
-  return fetch(`${API_LOGIN_ENDPOINT}/Login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  return fetch(
+    `${Constants.expoConfig?.extra?.API_LOGIN_ENDPOINT}/Authentication/Login`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
     },
-    body: JSON.stringify({ username, password }),
-  }).then((response) => {
+  ).then((response) => {
     if (!response.ok) {
       return response.json().then((error: any) => {
         throw new Error(

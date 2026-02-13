@@ -1,6 +1,6 @@
-import { getAtlas, getAtlasDetails } from "@/services/api";
 import { RootState } from "@/store";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Constants from "expo-constants";
 
 export const fetchAtlas = createAsyncThunk<
   AtlasResponse,
@@ -15,8 +15,8 @@ export const fetchAtlas = createAsyncThunk<
   async (
     {
       fincaId,
-      init,
-      limit,
+      init = 1,
+      limit = 10,
     }: {
       fincaId: number;
       init?: number;
@@ -25,13 +25,23 @@ export const fetchAtlas = createAsyncThunk<
     { getState },
   ) => {
     const authToken = getState().auth.auth?.accessToken;
-    const response = await getAtlas(
-      authToken?.token ?? "",
-      fincaId,
-      init,
-      limit,
-    );
-    return response;
+    return fetch(
+      `${Constants.expoConfig?.extra?.API_ENDPOINT}/systems/${fincaId}/Atlas/?Init=${init}&Limit=${limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken?.token ?? ""}`,
+        },
+      },
+    ).then((response) => {
+      if (!response.ok) {
+        return response.json().then((error: any) => {
+          throw new Error(
+            error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
+          );
+        });
+      }
+      return response.json();
+    });
   },
 );
 
@@ -49,12 +59,23 @@ export const fetchAtlasDetails = createAsyncThunk<
     { getState },
   ) => {
     const authToken = getState().auth.auth?.accessToken;
-    const response = await getAtlasDetails(
-      authToken?.token ?? "",
-      fincaId,
-      imei,
-    );
-    return response;
+    return fetch(
+      `${Constants.expoConfig?.extra?.API_ENDPOINT}/systems/${fincaId}/Atlas/${imei}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken?.token ?? ""}`,
+        },
+      },
+    ).then((response) => {
+      if (!response.ok) {
+        return response.json().then((error: any) => {
+          throw new Error(
+            error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
+          );
+        });
+      }
+      return response.json();
+    });
   },
 );
 
