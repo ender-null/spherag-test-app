@@ -1,6 +1,7 @@
 {
   "ios": {
-    "CFBundleDisplayName": "Spherag PoC"
+    "CFBundleDisplayName": "Spherag PoC",
+    "NSLocationWhenInUseUsageDescription": "We need your location to show you on the map"
   },
   "android": {
     "app_name": "Spherag PoC"
