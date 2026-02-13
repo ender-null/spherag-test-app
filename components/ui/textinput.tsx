@@ -1,10 +1,7 @@
-import { useTheme } from '@react-navigation/native';
 import { StyleSheet, TextInput, TextInputProps } from 'react-native';
 
 export function UITextInput({ ...props }: TextInputProps) {
-  const theme = useTheme();
-
-  return <TextInput {...props} style={styles.input} placeholderTextColor={theme.colors.text} />;
+  return <TextInput {...props} style={styles.input} placeholderTextColor="rgb(89, 96, 102)" />;
 }
 
 const styles = StyleSheet.create({

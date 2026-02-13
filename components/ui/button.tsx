@@ -16,7 +16,10 @@ export function UIButton({ title, autoSize, ...props }: UIButtonProps) {
       {...props}
       style={[
         styles.button,
-        { backgroundColor: theme.colors.primary, width: autoSize ? 'auto' : '100%' },
+        {
+          backgroundColor: theme.colors.primary,
+          width: autoSize ? 'auto' : '100%',
+        },
       ]}
     >
       <ThemedText type="defaultSemiBold" style={[styles.text, { color: secondaryColor }]}>

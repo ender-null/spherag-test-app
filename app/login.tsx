@@ -25,18 +25,20 @@ export default function LoginScreen() {
   const loadingState = useSelector(selectAuthLoadingState);
   const error = useSelector(selectAuthError);
 
-  const [username, setUsername] = useState('apppruebatecnica@spherag.com');
-  const [password, setPassword] = useState('Usuario2026!');
+  const [submitted, setSubmitted] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
+    setSubmitted(true);
     dispatch(fetchAuth({ username, password }));
   };
 
   useEffect(() => {
-    if (loadingState === 'error' && error) {
+    if (submitted && loadingState === 'error' && error) {
       Alert.alert(i18n.t('login.error'), error);
     }
-  }, [loadingState, error]);
+  }, [submitted, loadingState, error]);
 
   const backgroundColor = useMemo(() => {
     if (theme.dark) {
@@ -48,6 +50,10 @@ export default function LoginScreen() {
   const source = theme.dark
     ? require('@/assets/images/logo-dark.png')
     : require('@/assets/images/logo-light.png');
+
+  const isButtonDisabled = useMemo(() => {
+    return loadingState === 'loading' || username === '' || password === '';
+  }, [loadingState, username, password]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -74,7 +80,7 @@ export default function LoginScreen() {
             <UIButton
               title={i18n.t('login.login')}
               onPress={handleLogin}
-              disabled={loadingState === 'loading'}
+              disabled={isButtonDisabled}
             />
           </ThemedView>
         </TouchableWithoutFeedback>
