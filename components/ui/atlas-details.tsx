@@ -1,7 +1,6 @@
 import { CircleIcon } from '@/components/circle-icon';
 import { ThemedText } from '@/components/themed-text';
 import i18n from '@/i18n';
-import { formatDate } from '@/utils/format';
 import { useTheme } from '@react-navigation/native';
 import {
   BatteryFullIcon,
@@ -59,11 +58,9 @@ export function AtlasDetails({ atlas }: { atlas: AtlasDetails }) {
     <View style={[styles.item, { backgroundColor: theme.colors.card }]}>
       <CircleIcon icon={SimCardIcon} />
       <View style={styles.content}>
+        <ThemedText type="defaultBold">{atlas.name}</ThemedText>
         <ThemedText style={styles.contentText}>
           {i18n.t('atlas.imei')}: {atlas.imei}
-        </ThemedText>
-        <ThemedText style={styles.contentText}>
-          {i18n.t('atlas.expiredDate')}: {formatDate(atlas.expiredDate)}
         </ThemedText>
       </View>
       <View style={styles.status}>

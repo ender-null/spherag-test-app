@@ -12,7 +12,7 @@ import { useAppDispatch } from '@/store';
 import { useTheme } from '@react-navigation/native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo } from 'react';
-import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { shallowEqual, useSelector } from 'react-redux';
 
 export default function AtlasDetailScreen() {
@@ -58,7 +58,6 @@ export default function AtlasDetailScreen() {
           </View>
         )}
         {loadingState === 'error' && <EmptyList text={error ?? i18n.t('atlas.error')} />}
-        {loadingState === 'loading' && <ActivityIndicator color={theme.colors.primary} />}
       </ScrollView>
     </>
   );
