@@ -16,8 +16,8 @@
     "title": "Login",
     "username": "Username",
     "password": "Password",
-    "login": "Login",
-    "logout": "Logout",
+    "login": "Log in",
+    "logout": "Log out",
     "error": "Login failed"
   }
 }

@@ -94,23 +94,33 @@ const atlasSlice = createSlice({
         state.list[action.meta.arg.fincaId] = {
           list: [],
           loadingState: 'pending',
+          loadingMoreState: 'pending',
           error: null,
           page: 1,
           hasNextPage: false,
         };
       }
-      state.list[action.meta.arg.fincaId].loadingState = 'loading';
+      if (action.meta.arg.init === 1) {
+        state.list[action.meta.arg.fincaId].loadingState = 'loading';
+      } else {
+        state.list[action.meta.arg.fincaId].loadingMoreState = 'loading';
+      }
     });
     builder.addCase(fetchAtlas.rejected, (state, action) => {
-      state.list[action.meta.arg.fincaId].loadingState = 'error';
+      if (action.meta.arg.init === 1) {
+        state.list[action.meta.arg.fincaId].loadingState = 'error';
+      } else {
+        state.list[action.meta.arg.fincaId].loadingMoreState = 'error';
+      }
       state.list[action.meta.arg.fincaId].error =
         (action.error as Error).message ?? 'Unknown error';
     });
     builder.addCase(fetchAtlas.fulfilled, (state, action) => {
-      state.list[action.meta.arg.fincaId].loadingState = 'success';
       if (action.meta.arg.init === 1) {
+        state.list[action.meta.arg.fincaId].loadingState = 'success';
         state.list[action.meta.arg.fincaId].list = action.payload.items;
       } else {
+        state.list[action.meta.arg.fincaId].loadingMoreState = 'success';
         state.list[action.meta.arg.fincaId].list = [
           ...state.list[action.meta.arg.fincaId].list,
           ...action.payload.items,
@@ -123,7 +133,8 @@ const atlasSlice = createSlice({
       if (!state.details[action.meta.arg.imei]) {
         state.details[action.meta.arg.imei] = {
           details: null,
-          loadingState: 'loading',
+          loadingState: 'pending',
+          loadingMoreState: 'pending',
           error: null,
         };
       }
@@ -159,7 +170,7 @@ export const selectAtlasLoadingById =
 export const selectAtlasLoadingMoreById =
   (fincaId: number): ((state: RootState) => LoadingState) =>
   (state: RootState) =>
-    state.atlas.list[fincaId]?.loadingState ?? 'pending';
+    state.atlas.list[fincaId]?.loadingMoreState ?? 'pending';
 
 export const selectAtlasHasNextPageById =
   (fincaId: number): ((state: RootState) => boolean) =>

@@ -4,63 +4,36 @@
  */
 
 import { DarkTheme, DefaultTheme, type Theme } from '@react-navigation/native';
-import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
-export const primaryColor = '#0fbaed';
-export const secondaryColor = '#283370';
+export const primaryColor = 'rgb(145, 223, 247)';
+export const secondaryColor = 'rgb(40, 51, 112)';
+export const tertiaryColor = 'rgb(0, 191, 255)';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
+    background: '#f2f2f6',
+    card: '#ffffff',
+    text: secondaryColor,
+    tint: primaryColor,
     icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
   },
   dark: {
+    background: '#1c1c1e',
+    card: '#2c2c2e',
     text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
+    tint: primaryColor,
     icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
   },
 };
-
-export const Fonts = Platform.select({
-  ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
-  },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
-  },
-  web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-  },
-});
 
 export const ThemedDefaultTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: primaryColor,
+    primary: Colors.light.tint,
+    text: Colors.light.text,
+    background: Colors.light.background,
+    card: Colors.light.card,
   },
 };
 
@@ -68,6 +41,9 @@ export const ThemedDarkTheme: Theme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    primary: primaryColor,
+    primary: Colors.dark.tint,
+    text: Colors.dark.text,
+    background: Colors.dark.background,
+    card: Colors.dark.card,
   },
 };

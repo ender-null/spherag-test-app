@@ -45,10 +45,14 @@ export default function AtlasDetailScreen() {
         }}
       />
       <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.content}
         contentInsetAdjustmentBehavior="automatic"
         refreshControl={
           <RefreshControl
             tintColor={theme.colors.primary}
+            colors={[theme.colors.primary]}
+            progressBackgroundColor={theme.colors.card}
             refreshing={loadingState === 'loading'}
             onRefresh={() => dispatch(fetchAtlasDetails({ fincaId, imei: imeiString }))}
           />
@@ -70,7 +74,9 @@ export default function AtlasDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 16,
     gap: 16,
+  },
+  content: {
+    paddingVertical: 16,
   },
 });

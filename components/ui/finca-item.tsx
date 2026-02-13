@@ -1,5 +1,5 @@
+import { CircleIcon } from '@/components/circle-icon';
 import { ThemedText } from '@/components/themed-text';
-import { secondaryColor } from '@/constants/theme';
 import { formatDate } from '@/utils/format';
 import { useTheme } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
@@ -15,14 +15,12 @@ export function FincaItem({ finca }: { finca: Finca }) {
       onPress={() => router.push(`/${finca.id}`)}
       style={[styles.item, { backgroundColor: theme.colors.card }]}
     >
-      <FarmIcon size={42} weight="light" color={theme.colors.primary} />
+      <CircleIcon icon={FarmIcon} />
       <View style={styles.content}>
-        <ThemedText type="defaultSemiBold">{finca.name}</ThemedText>
+        <ThemedText type="defaultBold">{finca.name}</ThemedText>
         <ThemedText style={styles.contentText}>{formatDate(finca.createdDate, true)}</ThemedText>
       </View>
-      {finca.favourite && (
-        <StarIcon weight="fill" color={theme.dark ? theme.colors.text : secondaryColor} />
-      )}
+      {finca.favourite && <StarIcon weight="fill" />}
     </TouchableOpacity>
   );
 }
@@ -32,10 +30,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    padding: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
     marginHorizontal: 16,
     gap: 16,
-    borderRadius: 32,
+    borderRadius: 16,
   },
   content: {
     flex: 1,

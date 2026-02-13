@@ -8,7 +8,7 @@ export function AtlasMap({ atlas }: { atlas: AtlasDetails }) {
   const theme = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderColor: theme.colors.border }]}>
       <MapView
         style={styles.map}
         initialRegion={{
@@ -32,7 +32,13 @@ export function AtlasMap({ atlas }: { atlas: AtlasDetails }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, borderRadius: 32, marginHorizontal: 16, overflow: 'hidden' },
+  container: {
+    flex: 1,
+    borderRadius: 16,
+    marginHorizontal: 16,
+    overflow: 'hidden',
+    borderWidth: StyleSheet.hairlineWidth,
+  },
   map: {
     flex: 1,
     height: 200,

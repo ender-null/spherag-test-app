@@ -1,18 +1,25 @@
 import { ThemedText } from '@/components/themed-text';
+import { secondaryColor } from '@/constants/theme';
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 interface UIButtonProps extends TouchableOpacityProps {
   title: string;
+  autoSize?: boolean;
 }
 
-export function UIButton({ title, ...props }: UIButtonProps) {
+export function UIButton({ title, autoSize, ...props }: UIButtonProps) {
   const theme = useTheme();
-  const backgroundColor = theme.colors.primary;
 
   return (
-    <TouchableOpacity {...props} style={[styles.button, { backgroundColor }]}>
-      <ThemedText type="defaultSemiBold" style={styles.text}>
+    <TouchableOpacity
+      {...props}
+      style={[
+        styles.button,
+        { backgroundColor: theme.colors.primary, width: autoSize ? 'auto' : '100%' },
+      ]}
+    >
+      <ThemedText type="defaultSemiBold" style={[styles.text, { color: secondaryColor }]}>
         {title}
       </ThemedText>
     </TouchableOpacity>
@@ -21,15 +28,14 @@ export function UIButton({ title, ...props }: UIButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    width: '100%',
-    padding: 12,
-    borderRadius: 32,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'red',
-    color: 'white',
   },
   text: {
-    color: 'white',
+    fontSize: 16,
+    fontWeight: '700',
   },
 });

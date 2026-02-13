@@ -1,3 +1,4 @@
+import { CircleIcon } from '@/components/circle-icon';
 import { ThemedText } from '@/components/themed-text';
 import i18n from '@/i18n';
 import { formatDate } from '@/utils/format';
@@ -56,7 +57,7 @@ export function AtlasDetails({ atlas }: { atlas: AtlasDetails }) {
 
   return (
     <View style={[styles.item, { backgroundColor: theme.colors.card }]}>
-      <SimCardIcon size={42} weight="light" color={theme.colors.primary} />
+      <CircleIcon icon={SimCardIcon} />
       <View style={styles.content}>
         <ThemedText style={styles.contentText}>
           {i18n.t('atlas.imei')}: {atlas.imei}
@@ -67,19 +68,23 @@ export function AtlasDetails({ atlas }: { atlas: AtlasDetails }) {
       </View>
       <View style={styles.status}>
         <View style={styles.statusItem}>
-          <ThemedText
-            style={[styles.contentText, { color: getColorFromPercentage(batteryPercentage) }]}
-          >
-            {batteryPercentage}%
-          </ThemedText>
+          {batteryPercentage > 0 && (
+            <ThemedText
+              style={[styles.contentText, { color: getColorFromPercentage(batteryPercentage) }]}
+            >
+              {batteryPercentage}%
+            </ThemedText>
+          )}
           {batteryIcon}
         </View>
         <View style={styles.statusItem}>
-          <ThemedText
-            style={[styles.contentText, { color: getColorFromPercentage(signalPercentage) }]}
-          >
-            {signalPercentage}%
-          </ThemedText>
+          {signalPercentage > 0 && (
+            <ThemedText
+              style={[styles.contentText, { color: getColorFromPercentage(signalPercentage) }]}
+            >
+              {signalPercentage}%
+            </ThemedText>
+          )}
           {signalIcon}
         </View>
       </View>
@@ -92,10 +97,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    padding: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
     marginHorizontal: 16,
     gap: 16,
-    borderRadius: 32,
+    borderRadius: 16,
   },
   content: {
     flex: 1,

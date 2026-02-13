@@ -15,7 +15,7 @@ import { useTheme } from '@react-navigation/native';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet } from 'react-native';
 import { shallowEqual, useSelector } from 'react-redux';
 
 export default function AtlasListScreen() {
@@ -36,7 +36,6 @@ export default function AtlasListScreen() {
     return i18n.t('atlas.title');
   }, [finca]);
 
-  const isLoading = useMemo(() => loadingState === 'loading', [loadingState]);
   const isLoadingMore = useMemo(() => loadingMoreState === 'loading', [loadingMoreState]);
   const [page, setPage] = useState(1);
 
@@ -62,14 +61,22 @@ export default function AtlasListScreen() {
       />
       <FlatList
         style={styles.container}
+        contentContainerStyle={styles.content}
         contentInsetAdjustmentBehavior="automatic"
         data={atlasList}
-        renderItem={({ item }) => <AtlasItem key={item.id} fincaId={id.toString()} atlas={item} />}
-        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <AtlasItem fincaId={id.toString()} atlas={item} />}
+        keyExtractor={(item) => `atlas-${item.imei}`}
         ListEmptyComponent={() => <EmptyList text={i18n.t('atlas.empty')} />}
         ItemSeparatorComponent={() => <Separator spacing />}
-        refreshing={isLoading}
-        onRefresh={() => dispatch(fetchAtlas({ fincaId: Number(id), init: 1 }))}
+        refreshControl={
+          <RefreshControl
+            tintColor={theme.colors.primary}
+            colors={[theme.colors.primary]}
+            progressBackgroundColor={theme.colors.card}
+            refreshing={loadingState === 'loading'}
+            onRefresh={() => dispatch(fetchAtlas({ fincaId: Number(id), init: 1 }))}
+          />
+        }
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
@@ -83,6 +90,8 @@ export default function AtlasListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  content: {
     paddingVertical: 16,
   },
 });
