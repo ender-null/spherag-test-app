@@ -1,31 +1,26 @@
-import { RootState } from "@/store";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Constants from "expo-constants";
+import { RootState } from '@/store';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import Constants from 'expo-constants';
 
-export const fetchAuth = createAsyncThunk<
-  Auth,
-  { username: string; password: string }
->("auth/fetch", ({ username, password }) => {
-  return fetch(
-    `${Constants.expoConfig?.extra?.API_LOGIN_ENDPOINT}/Authentication/Login`,
-    {
-      method: "POST",
+export const fetchAuth = createAsyncThunk<Auth, { username: string; password: string }>(
+  'auth/fetch',
+  ({ username, password }) => {
+    return fetch(`${Constants.expoConfig?.extra?.API_LOGIN_ENDPOINT}/Authentication/Login`, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username, password }),
-    },
-  ).then((response) => {
-    if (!response.ok) {
-      return response.json().then((error: any) => {
-        throw new Error(
-          error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
-        );
-      });
-    }
-    return response.json();
-  });
-});
+    }).then((response) => {
+      if (!response.ok) {
+        return response.json().then((error: any) => {
+          throw new Error(error.errors?.[0]?.message ?? error.Message ?? 'Unknown error');
+        });
+      }
+      return response.json();
+    });
+  }
+);
 
 interface AuthState {
   auth: Auth | null;
@@ -35,12 +30,12 @@ interface AuthState {
 
 const initialState: AuthState = {
   auth: null,
-  loadingState: "pending",
+  loadingState: 'pending',
   error: null,
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     resetAuth(state) {
@@ -51,15 +46,15 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAuth.pending, (state) => {
-      state.loadingState = "loading";
+      state.loadingState = 'loading';
     });
     builder.addCase(fetchAuth.fulfilled, (state, action) => {
-      state.loadingState = "success";
+      state.loadingState = 'success';
       state.auth = action.payload;
       state.error = null;
     });
     builder.addCase(fetchAuth.rejected, (state, action) => {
-      state.loadingState = "error";
+      state.loadingState = 'error';
       state.auth = null;
       state.error = action.error.message ?? null;
     });
@@ -74,10 +69,8 @@ export const selectAuthToken = (state: RootState): AuthToken | null =>
 export const selectRefreshToken = (state: RootState): AuthToken | null =>
   state.auth.auth?.refreshToken ?? null;
 
-export const selectAuthLoadingState = (state: RootState): LoadingState =>
-  state.auth.loadingState;
+export const selectAuthLoadingState = (state: RootState): LoadingState => state.auth.loadingState;
 
-export const selectAuthError = (state: RootState): string | null =>
-  state.auth.error;
+export const selectAuthError = (state: RootState): string | null => state.auth.error;
 
 export default authSlice.reducer;

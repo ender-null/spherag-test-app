@@ -1,26 +1,26 @@
-import { ThemedDarkTheme, ThemedDefaultTheme } from "@/constants/theme";
-import { selectAuthLoadingState, selectAuthToken } from "@/features/authSlice";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import i18n from "@/i18n";
-import { persistor, store } from "@/store";
-import { ThemeProvider } from "@react-navigation/native";
-import { getLocales } from "expo-localization";
-import { Stack, useRouter, useSegments } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { IconContext } from "phosphor-react-native";
-import { useEffect, useMemo } from "react";
-import "react-native-reanimated";
-import { Provider, useSelector } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
+import { ThemedDarkTheme, ThemedDefaultTheme } from '@/constants/theme';
+import { selectAuthLoadingState, selectAuthToken } from '@/features/authSlice';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import i18n from '@/i18n';
+import { persistor, store } from '@/store';
+import { ThemeProvider } from '@react-navigation/native';
+import { getLocales } from 'expo-localization';
+import { Stack, useRouter, useSegments } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { IconContext } from 'phosphor-react-native';
+import { useEffect, useMemo } from 'react';
+import 'react-native-reanimated';
+import { Provider, useSelector } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 export const unstable_settings = {
-  anchor: "(tabs)",
+  anchor: '(tabs)',
 };
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const theme = colorScheme === "dark" ? ThemedDarkTheme : ThemedDefaultTheme;
-  i18n.locale = getLocales()[0].languageCode ?? "en";
+  const theme = colorScheme === 'dark' ? ThemedDarkTheme : ThemedDefaultTheme;
+  i18n.locale = getLocales()[0].languageCode ?? 'en';
 
   return (
     <Provider store={store}>
@@ -30,7 +30,7 @@ export default function RootLayout() {
             value={{
               color: theme.colors.text,
               size: 28,
-              weight: "regular",
+              weight: 'regular',
             }}
           >
             <RootNavigator />
@@ -49,17 +49,20 @@ export function RootNavigator() {
   const authToken = useSelector(selectAuthToken);
   const loadingState = useSelector(selectAuthLoadingState);
 
-  const isLoggedIn = useMemo(() => authToken !== null && loadingState === "success", [authToken, loadingState]);
+  const isLoggedIn = useMemo(
+    () => authToken !== null && loadingState === 'success',
+    [authToken, loadingState]
+  );
 
   useEffect(() => {
-    const inAppGroup = segments[0] === "(app)";
+    const inAppGroup = segments[0] === '(app)';
 
     if (!isLoggedIn && inAppGroup) {
-      router.replace("/login");
+      router.replace('/login');
     }
 
     if (isLoggedIn && !inAppGroup) {
-      router.replace("/(app)/(tabs)");
+      router.replace('/(app)/(tabs)');
     }
   }, [router, isLoggedIn, segments]);
 

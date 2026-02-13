@@ -11,7 +11,8 @@
     "web": "expo start --web",
     "prebuild": "expo prebuild",
     "prebuild:clean": "expo prebuild --clean",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -54,8 +55,12 @@
     "@types/react": "~19.1.10",
     "@typescript-eslint/eslint-plugin": "^8.55.0",
     "@typescript-eslint/parser": "^8.55.0",
-    "eslint": "^9.25.0",
+    "eslint": "^9.39.2",
     "eslint-config-expo": "~10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react-native": "^5.0.0",
+    "prettier": "^3.8.1",
     "tsx": "^4.21.0",
     "typescript": "~5.9.3"
   },

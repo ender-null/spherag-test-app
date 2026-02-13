@@ -1,9 +1,9 @@
-import { createMMKV } from "react-native-mmkv";
-import { Storage } from "redux-persist";
+import { createMMKV } from 'react-native-mmkv';
+import { Storage } from 'redux-persist';
 
 const storage = createMMKV({
-  id: "spherag-test-app",
-  mode: "multi-process",
+  id: 'spherag-test-app',
+  mode: 'multi-process',
 });
 
 export const reduxStorage: Storage = {

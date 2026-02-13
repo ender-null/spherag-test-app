@@ -1,5 +1,5 @@
-import { useTheme } from "@react-navigation/native";
-import { StyleSheet, View } from "react-native";
+import { useTheme } from '@react-navigation/native';
+import { StyleSheet, View } from 'react-native';
 
 export function Separator({ spacing = false }: { spacing?: boolean }) {
   const theme = useTheme();

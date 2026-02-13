@@ -1,12 +1,12 @@
-import { ConfigContext, ExpoConfig } from "expo/config";
-import "tsx/cjs";
-import { supportedLocales } from "./i18n";
+import { ConfigContext, ExpoConfig } from 'expo/config';
+import 'tsx/cjs';
+import { supportedLocales } from './i18n';
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   config.plugins = [
     ...(config.plugins || []),
     [
-      "expo-localization",
+      'expo-localization',
       {
         supportedLocales: {
           ios: supportedLocales,
@@ -20,7 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       acc[lang] = `./assets/languages/${lang}-meta.json`;
       return acc;
     },
-    {} as Record<string, string>,
+    {} as Record<string, string>
   );
 
   config.locales = {

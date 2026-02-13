@@ -1,6 +1,6 @@
-import { RootState } from "@/store";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Constants from "expo-constants";
+import { RootState } from '@/store';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import Constants from 'expo-constants';
 
 export const fetchAtlas = createAsyncThunk<
   AtlasResponse,
@@ -11,7 +11,7 @@ export const fetchAtlas = createAsyncThunk<
   },
   { state: RootState }
 >(
-  "atlas/fetch",
+  'atlas/fetch',
   async (
     {
       fincaId,
@@ -22,27 +22,25 @@ export const fetchAtlas = createAsyncThunk<
       init?: number;
       limit?: number;
     },
-    { getState },
+    { getState }
   ) => {
     const authToken = getState().auth.auth?.accessToken;
     return fetch(
       `${Constants.expoConfig?.extra?.API_ENDPOINT}/systems/${fincaId}/Atlas/?Init=${init}&Limit=${limit}`,
       {
         headers: {
-          Authorization: `Bearer ${authToken?.token ?? ""}`,
+          Authorization: `Bearer ${authToken?.token ?? ''}`,
         },
-      },
+      }
     ).then((response) => {
       if (!response.ok) {
         return response.json().then((error: any) => {
-          throw new Error(
-            error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
-          );
+          throw new Error(error.errors?.[0]?.message ?? error.Message ?? 'Unknown error');
         });
       }
       return response.json();
     });
-  },
+  }
 );
 
 export const fetchAtlasDetails = createAsyncThunk<
@@ -53,30 +51,22 @@ export const fetchAtlasDetails = createAsyncThunk<
   },
   { state: RootState }
 >(
-  "atlas/fetchDetails",
-  async (
-    { fincaId, imei }: { fincaId: number; imei: string },
-    { getState },
-  ) => {
+  'atlas/fetchDetails',
+  async ({ fincaId, imei }: { fincaId: number; imei: string }, { getState }) => {
     const authToken = getState().auth.auth?.accessToken;
-    return fetch(
-      `${Constants.expoConfig?.extra?.API_ENDPOINT}/systems/${fincaId}/Atlas/${imei}`,
-      {
-        headers: {
-          Authorization: `Bearer ${authToken?.token ?? ""}`,
-        },
+    return fetch(`${Constants.expoConfig?.extra?.API_ENDPOINT}/systems/${fincaId}/Atlas/${imei}`, {
+      headers: {
+        Authorization: `Bearer ${authToken?.token ?? ''}`,
       },
-    ).then((response) => {
+    }).then((response) => {
       if (!response.ok) {
         return response.json().then((error: any) => {
-          throw new Error(
-            error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
-          );
+          throw new Error(error.errors?.[0]?.message ?? error.Message ?? 'Unknown error');
         });
       }
       return response.json();
     });
-  },
+  }
 );
 
 interface AtlasState {
@@ -90,7 +80,7 @@ const initialState: AtlasState = {
 };
 
 const atlasSlice = createSlice({
-  name: "atlas",
+  name: 'atlas',
   initialState,
   reducers: {
     resetAtlas(state) {
@@ -103,21 +93,21 @@ const atlasSlice = createSlice({
       if (!state.list[action.meta.arg.fincaId]) {
         state.list[action.meta.arg.fincaId] = {
           list: [],
-          loadingState: "pending",
+          loadingState: 'pending',
           error: null,
           page: 1,
           hasNextPage: false,
         };
       }
-      state.list[action.meta.arg.fincaId].loadingState = "loading";
+      state.list[action.meta.arg.fincaId].loadingState = 'loading';
     });
     builder.addCase(fetchAtlas.rejected, (state, action) => {
-      state.list[action.meta.arg.fincaId].loadingState = "error";
+      state.list[action.meta.arg.fincaId].loadingState = 'error';
       state.list[action.meta.arg.fincaId].error =
-        (action.error as Error).message ?? "Unknown error";
+        (action.error as Error).message ?? 'Unknown error';
     });
     builder.addCase(fetchAtlas.fulfilled, (state, action) => {
-      state.list[action.meta.arg.fincaId].loadingState = "success";
+      state.list[action.meta.arg.fincaId].loadingState = 'success';
       if (action.meta.arg.init === 1) {
         state.list[action.meta.arg.fincaId].list = action.payload.items;
       } else {
@@ -127,28 +117,25 @@ const atlasSlice = createSlice({
         ];
       }
       state.list[action.meta.arg.fincaId].page = action.payload.pageNumber;
-      state.list[action.meta.arg.fincaId].hasNextPage =
-        action.payload.hasNextPage;
+      state.list[action.meta.arg.fincaId].hasNextPage = action.payload.hasNextPage;
     });
     builder.addCase(fetchAtlasDetails.pending, (state, action) => {
       if (!state.details[action.meta.arg.imei]) {
         state.details[action.meta.arg.imei] = {
           details: null,
-          loadingState: "loading",
+          loadingState: 'loading',
           error: null,
         };
       }
-      state.details[action.meta.arg.imei].loadingState = "loading";
+      state.details[action.meta.arg.imei].loadingState = 'loading';
     });
     builder.addCase(fetchAtlasDetails.rejected, (state, action) => {
-      state.details[action.meta.arg.imei].loadingState = "error";
+      state.details[action.meta.arg.imei].loadingState = 'error';
       state.details[action.meta.arg.imei].details = null;
-      state.details[action.meta.arg.imei].error = (
-        action.error as Error
-      ).message;
+      state.details[action.meta.arg.imei].error = (action.error as Error).message;
     });
     builder.addCase(fetchAtlasDetails.fulfilled, (state, action) => {
-      state.details[action.meta.arg.imei].loadingState = "success";
+      state.details[action.meta.arg.imei].loadingState = 'success';
       state.details[action.meta.arg.imei].details = action.payload;
       state.details[action.meta.arg.imei].error = null;
     });
@@ -157,8 +144,7 @@ const atlasSlice = createSlice({
 
 export const { resetAtlas } = atlasSlice.actions;
 
-export const selectAtlas = (state: RootState): Record<string, AtlasList> =>
-  state.atlas.list;
+export const selectAtlas = (state: RootState): Record<string, AtlasList> => state.atlas.list;
 
 export const selectAtlasById =
   (fincaId: number): ((state: RootState) => Atlas[]) =>
@@ -168,12 +154,12 @@ export const selectAtlasById =
 export const selectAtlasLoadingById =
   (fincaId: number): ((state: RootState) => LoadingState) =>
   (state: RootState) =>
-    state.atlas.list[fincaId]?.loadingState ?? "pending";
+    state.atlas.list[fincaId]?.loadingState ?? 'pending';
 
 export const selectAtlasLoadingMoreById =
   (fincaId: number): ((state: RootState) => LoadingState) =>
   (state: RootState) =>
-    state.atlas.list[fincaId]?.loadingState ?? "pending";
+    state.atlas.list[fincaId]?.loadingState ?? 'pending';
 
 export const selectAtlasHasNextPageById =
   (fincaId: number): ((state: RootState) => boolean) =>
@@ -193,7 +179,7 @@ export const selectAtlasDetailsById =
 export const selectAtlasDetailsLoadingById =
   (imei: string): ((state: RootState) => LoadingState) =>
   (state: RootState) =>
-    state.atlas.details[imei]?.loadingState ?? "pending";
+    state.atlas.details[imei]?.loadingState ?? 'pending';
 
 export const selectAtlasDetailsErrorById =
   (imei: string): ((state: RootState) => string | null) =>

@@ -1,7 +1,7 @@
-import { ThemedText } from "@/components/themed-text";
-import i18n from "@/i18n";
-import { formatDate } from "@/utils/format";
-import { useTheme } from "@react-navigation/native";
+import { ThemedText } from '@/components/themed-text';
+import i18n from '@/i18n';
+import { formatDate } from '@/utils/format';
+import { useTheme } from '@react-navigation/native';
 import {
   BatteryFullIcon,
   BatteryHighIcon,
@@ -14,9 +14,9 @@ import {
   CellSignalMediumIcon,
   CellSignalXIcon,
   SimCardIcon,
-} from "phosphor-react-native";
-import { useCallback, useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+} from 'phosphor-react-native';
+import { useCallback, useMemo } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 export function AtlasDetails({ atlas }: { atlas: AtlasDetails }) {
   const theme = useTheme();
@@ -30,10 +30,10 @@ export function AtlasDetails({ atlas }: { atlas: AtlasDetails }) {
   }, [atlas.signalPercentage]);
 
   const getColorFromPercentage = useCallback((percentage: number) => {
-    if (percentage > 80) return "green";
+    if (percentage > 80) return 'green';
     if (percentage > 60) return undefined;
-    if (percentage > 40) return "red";
-    return "red";
+    if (percentage > 40) return 'red';
+    return 'red';
   }, []);
 
   const batteryIcon = useMemo(() => {
@@ -59,19 +59,16 @@ export function AtlasDetails({ atlas }: { atlas: AtlasDetails }) {
       <SimCardIcon size={42} weight="light" color={theme.colors.primary} />
       <View style={styles.content}>
         <ThemedText style={styles.contentText}>
-          {i18n.t("atlas.imei")}: {atlas.imei}
+          {i18n.t('atlas.imei')}: {atlas.imei}
         </ThemedText>
         <ThemedText style={styles.contentText}>
-          {i18n.t("atlas.expiredDate")}: {formatDate(atlas.expiredDate)}
+          {i18n.t('atlas.expiredDate')}: {formatDate(atlas.expiredDate)}
         </ThemedText>
       </View>
       <View style={styles.status}>
         <View style={styles.statusItem}>
           <ThemedText
-            style={[
-              styles.contentText,
-              { color: getColorFromPercentage(batteryPercentage) },
-            ]}
+            style={[styles.contentText, { color: getColorFromPercentage(batteryPercentage) }]}
           >
             {batteryPercentage}%
           </ThemedText>
@@ -79,10 +76,7 @@ export function AtlasDetails({ atlas }: { atlas: AtlasDetails }) {
         </View>
         <View style={styles.statusItem}>
           <ThemedText
-            style={[
-              styles.contentText,
-              { color: getColorFromPercentage(signalPercentage) },
-            ]}
+            style={[styles.contentText, { color: getColorFromPercentage(signalPercentage) }]}
           >
             {signalPercentage}%
           </ThemedText>
@@ -95,9 +89,9 @@ export function AtlasDetails({ atlas }: { atlas: AtlasDetails }) {
 
 const styles = StyleSheet.create({
   item: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     padding: 16,
     marginHorizontal: 16,
     gap: 16,
@@ -105,17 +99,17 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   status: {
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   statusItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     gap: 4,
   },
   contentText: {

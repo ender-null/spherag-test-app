@@ -1,4 +1,4 @@
-type LoadingState = "pending" | "loading" | "success" | "error";
+type LoadingState = 'pending' | 'loading' | 'success' | 'error';
 
 interface AtlasList {
   list: Atlas[];
