@@ -8,6 +8,7 @@ import {
 } from "@/features/atlasSlice";
 import i18n from "@/i18n";
 import { useAppDispatch } from "@/store";
+import { useTheme } from "@react-navigation/native";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useMemo } from "react";
@@ -17,6 +18,7 @@ import { useSelector } from "react-redux";
 export default function AtlasDetailScreen() {
   const dispatch = useAppDispatch();
   const { id, imei } = useLocalSearchParams();
+  const theme = useTheme();
   const fincaId = useMemo(() => Number(id), [id]);
   const imeiString = useMemo(() => imei.toString(), [imei]);
   const atlasDetails = useSelector(selectAtlasDetailsById(imeiString));
@@ -45,6 +47,7 @@ export default function AtlasDetailScreen() {
         contentInsetAdjustmentBehavior="automatic"
         refreshControl={
           <RefreshControl
+            tintColor={theme.colors.primary}
             refreshing={loadingState === "loading"}
             onRefresh={() =>
               dispatch(fetchAtlasDetails({ fincaId, imei: imeiString }))
@@ -58,7 +61,7 @@ export default function AtlasDetailScreen() {
         {loadingState === "error" && (
           <EmptyList text={error ?? i18n.t("atlas.error")} />
         )}
-        {loadingState === "loading" && <ActivityIndicator />}
+        {loadingState === "loading" && <ActivityIndicator color={ theme.colors.primary} />}
       </ScrollView>
     </>
   );

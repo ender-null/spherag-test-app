@@ -11,6 +11,7 @@ import {
 import { selectFincaById } from "@/features/fincasSlice";
 import i18n from "@/i18n";
 import { useAppDispatch } from "@/store";
+import { useTheme } from "@react-navigation/native";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -20,6 +21,7 @@ import { useSelector } from "react-redux";
 export default function AtlasListScreen() {
   const dispatch = useAppDispatch();
   const { id } = useLocalSearchParams();
+  const theme = useTheme();
   const fincaId = useMemo(() => Number(id), [id]);
   const atlasList = useSelector(selectAtlasById(fincaId));
   const finca = useSelector(selectFincaById(fincaId));
@@ -75,7 +77,7 @@ export default function AtlasListScreen() {
         onRefresh={() => dispatch(fetchAtlas({ fincaId: Number(id), init: 1 }))}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
-        ListFooterComponent={isLoadingMore ? <ActivityIndicator /> : null}
+        ListFooterComponent={isLoadingMore ? <ActivityIndicator color={theme.colors.primary} /> : null}
       />
     </>
   );
