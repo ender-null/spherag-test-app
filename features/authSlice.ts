@@ -52,14 +52,14 @@ const authSlice = createSlice({
       state.loadingState = "loading";
     });
     builder.addCase(fetchAuth.fulfilled, (state, action) => {
+      state.loadingState = "success";
       state.auth = action.payload;
       state.error = null;
-      state.loadingState = "success";
     });
     builder.addCase(fetchAuth.rejected, (state, action) => {
+      state.loadingState = "error";
       state.auth = null;
       state.error = action.error.message ?? null;
-      state.loadingState = "error";
     });
   },
 });

@@ -2,7 +2,7 @@ import { Separator } from "@/components/separator";
 import { EmptyList } from "@/components/ui/empty-list";
 import { FincaItem } from "@/components/ui/finca-item";
 import { resetAtlas } from "@/features/atlasSlice";
-import { resetAuth } from "@/features/authSlice";
+import { resetAuth, selectAuthToken } from "@/features/authSlice";
 import {
   fetchFincas,
   resetFincas,
@@ -24,6 +24,7 @@ export default function HomeScreen() {
   const fincas = useSelector(selectFincas);
   const loadingState = useSelector(selectFincasLoading);
   const loading = useMemo(() => loadingState === "loading", [loadingState]);
+  const authToken = useSelector(selectAuthToken);
 
   const handleLogout = () => {
     dispatch(resetAuth());
@@ -32,10 +33,10 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
-    if (loadingState === "pending") {
+    if (loadingState === "pending" && authToken !== null) {
       dispatch(fetchFincas());
     }
-  }, [loadingState, dispatch]);
+  }, [dispatch, loadingState, authToken]);
 
   return (
     <>

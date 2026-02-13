@@ -9,10 +9,16 @@ export const login = (username: string, password: string): Promise<Auth> => {
     },
     body: JSON.stringify({ username, password }),
   })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error(error);
-    });
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((error: any) => {
+        throw new Error(
+          error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
+        );
+      });
+    }
+    return response.json();
+  })
 };
 
 export const getFincas = (accessToken: string): Promise<Finca[]> => {
@@ -21,10 +27,16 @@ export const getFincas = (accessToken: string): Promise<Finca[]> => {
       Authorization: `Bearer ${accessToken}`,
     },
   })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error(error);
-    });
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((error: any) => {
+        throw new Error(
+          error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
+        );
+      });
+    }
+    return response.json();
+  })
 };
 
 export const getAtlas = (
@@ -41,10 +53,16 @@ export const getAtlas = (
       },
     },
   )
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error(error);
-    });
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((error: any) => {
+        throw new Error(
+          error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
+        );
+      });
+    }
+    return response.json();
+  })
 };
 
 export const getAtlasDetails = (
@@ -57,8 +75,14 @@ export const getAtlasDetails = (
       Authorization: `Bearer ${accessToken}`,
     },
   })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error(error);
-    });
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((error: any) => {
+        throw new Error(
+          error.errors?.[0]?.message ?? error.Message ?? "Unknown error",
+        );
+      });
+    }
+    return response.json();
+  })
 };

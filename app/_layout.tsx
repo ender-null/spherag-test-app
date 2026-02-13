@@ -1,5 +1,5 @@
 import { ThemedDarkTheme, ThemedDefaultTheme } from "@/constants/theme";
-import { selectAuthToken } from "@/features/authSlice";
+import { selectAuthLoadingState, selectAuthToken } from "@/features/authSlice";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import i18n from "@/i18n";
 import { persistor, store } from "@/store";
@@ -8,7 +8,7 @@ import { getLocales } from "expo-localization";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { IconContext } from "phosphor-react-native";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import "react-native-reanimated";
 import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -46,7 +46,11 @@ export function RootNavigator() {
   const segments = useSegments();
   const router = useRouter();
 
-  const isLoggedIn = useSelector(selectAuthToken);
+  const authToken = useSelector(selectAuthToken);
+  const loadingState = useSelector(selectAuthLoadingState);
+
+  const isLoggedIn = useMemo(() => authToken !== null && loadingState === "success", [authToken, loadingState]);
+
   useEffect(() => {
     const inAppGroup = segments[0] === "(app)";
 
