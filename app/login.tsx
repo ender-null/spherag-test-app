@@ -2,6 +2,7 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { UIButton } from "@/components/ui/button";
 import { UITextInput } from "@/components/ui/textinput";
+import { secondaryColor } from "@/constants/theme";
 import {
   fetchAuth,
   selectAuthError,
@@ -10,8 +11,15 @@ import {
 import i18n from "@/i18n";
 import { useAppDispatch } from "@/store";
 import { useTheme } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { Alert, StyleSheet } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { useSelector } from "react-redux";
 
 export default function LoginScreen() {
@@ -33,32 +41,42 @@ export default function LoginScreen() {
     }
   }, [loadingState, error]);
 
+  const backgroundColor = useMemo(() => {
+    if (theme.dark) {
+      return theme.colors.background;
+    }
+    return secondaryColor;
+  }, [theme]);
+
   return (
-    <ThemedView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={[styles.container, { backgroundColor }]}
     >
-      <ThemedView
-        style={[styles.content, { backgroundColor: theme.colors.card }]}
-      >
-        <ThemedText type="title">Login</ThemedText>
-        <UITextInput
-          placeholder={i18n.t("login.username")}
-          value={username}
-          onChangeText={setUsername}
-        />
-        <UITextInput
-          placeholder={i18n.t("login.password")}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <UIButton
-          title={i18n.t("login.login")}
-          onPress={handleLogin}
-          disabled={loadingState === "loading"}
-        />
-      </ThemedView>
-    </ThemedView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ThemedView
+          style={[styles.content, { backgroundColor: theme.colors.card }]}
+        >
+          <ThemedText type="title">Login</ThemedText>
+          <UITextInput
+            placeholder={i18n.t("login.username")}
+            value={username}
+            onChangeText={setUsername}
+          />
+          <UITextInput
+            placeholder={i18n.t("login.password")}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <UIButton
+            title={i18n.t("login.login")}
+            onPress={handleLogin}
+            disabled={loadingState === "loading"}
+          />
+        </ThemedView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -76,5 +94,6 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 16,
     borderRadius: 42,
+    marginBottom: 24,
   },
 });
