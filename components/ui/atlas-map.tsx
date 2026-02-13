@@ -1,7 +1,12 @@
+import darkMap from "@/assets/maps/dark.json";
+import lightMap from "@/assets/maps/light.json";
+import { useTheme } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 export function AtlasMap({ atlas }: { atlas: AtlasDetails }) {
+  const theme = useTheme();
+
   return (
     <MapView
       style={styles.map}
@@ -12,6 +17,7 @@ export function AtlasMap({ atlas }: { atlas: AtlasDetails }) {
         longitudeDelta: 0.005,
       }}
       scrollEnabled={false}
+      customMapStyle={theme.dark ? darkMap : lightMap}
     >
       <Marker
         coordinate={{
