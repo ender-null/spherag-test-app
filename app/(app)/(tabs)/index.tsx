@@ -13,10 +13,9 @@ import {
 import i18n from '@/i18n';
 import { useAppDispatch } from '@/store';
 import { useTheme } from '@react-navigation/native';
-import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { FlatList, RefreshControl, StyleSheet } from 'react-native';
+import { Button, FlatList, Platform, RefreshControl, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 
 export default function HomeScreen() {
@@ -43,10 +42,16 @@ export default function HomeScreen() {
       <Stack.Screen
         options={{
           title: i18n.t('fincas.title'),
-          headerTransparent: isLiquidGlassAvailable(),
-          headerRight: () => (
-            <UIButton title={i18n.t('login.logout')} onPress={handleLogout} autoSize />
-          ),
+          headerRight: () =>
+            Platform.OS === 'ios' ? (
+              <Button
+                title={i18n.t('login.logout')}
+                onPress={handleLogout}
+                color={theme.colors.text}
+              />
+            ) : (
+              <UIButton title={i18n.t('login.logout')} onPress={handleLogout} autoSize />
+            ),
         }}
       />
       <FlatList

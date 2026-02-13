@@ -10,7 +10,6 @@ import {
 import i18n from '@/i18n';
 import { useAppDispatch } from '@/store';
 import { useTheme } from '@react-navigation/native';
-import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
@@ -26,10 +25,6 @@ export default function AtlasDetailScreen() {
   const loadingState = useSelector(selectAtlasDetailsLoadingById(imeiString), shallowEqual);
   const error = useSelector(selectAtlasDetailsErrorById(imeiString), shallowEqual);
 
-  const title = useMemo(() => {
-    return atlasDetails?.name ?? i18n.t('atlas.title');
-  }, [atlasDetails]);
-
   useEffect(() => {
     if (atlasDetails?.imei !== imeiString) {
       dispatch(fetchAtlasDetails({ fincaId, imei: imeiString }));
@@ -40,12 +35,10 @@ export default function AtlasDetailScreen() {
     <>
       <Stack.Screen
         options={{
-          title,
-          headerTransparent: isLiquidGlassAvailable(),
+          title: atlasDetails?.name ?? '',
         }}
       />
       <ScrollView
-        style={styles.container}
         contentContainerStyle={styles.content}
         contentInsetAdjustmentBehavior="automatic"
         refreshControl={

@@ -12,7 +12,6 @@ import { selectFincaById } from '@/features/fincasSlice';
 import i18n from '@/i18n';
 import { useAppDispatch } from '@/store';
 import { useTheme } from '@react-navigation/native';
-import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, StyleSheet } from 'react-native';
@@ -56,7 +55,6 @@ export default function AtlasListScreen() {
       <Stack.Screen
         options={{
           title,
-          headerTransparent: isLiquidGlassAvailable(),
         }}
       />
       <FlatList

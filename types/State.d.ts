@@ -12,6 +12,5 @@ interface AtlasList {
 interface AtlasDetailsList {
   details: AtlasDetails | null;
   loadingState: LoadingState;
-  loadingMoreState: LoadingState;
   error: string | null;
 }

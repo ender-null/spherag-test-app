@@ -21,6 +21,7 @@ export function AtlasMap({ atlas }: { atlas: AtlasDetails }) {
         customMapStyle={theme.dark ? darkMap : lightMap}
       >
         <Marker
+          pinColor={theme.colors.primary}
           coordinate={{
             latitude: Number(atlas?.latitude) ?? 0,
             longitude: Number(atlas?.longitude) ?? 0,
